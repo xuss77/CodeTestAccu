@@ -30,7 +30,14 @@ export class StackExchangeServiceService {
 
   getAnswers(question_id: number): Observable<AnswerInterface[]> {
     const url = `${this.stackExchangeUri}${this.questionRoute}${question_id}${this.answersSearch}`;
-    return this.http.get<AnswerInterface[]>(url);
+    return this.http.get<{ items: AnswerInterface[] }>(url)
+    .pipe(
+        map(response => response.items),
+        catchError(err => {
+            console.error('Error occurred while fetching questions', err);
+            return throwError(err);
+        })
+    );
   }
 
 }

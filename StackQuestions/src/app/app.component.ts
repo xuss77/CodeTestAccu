@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StackExchangeServiceService } from './stack-exchange-service/stack-exchange-service.service';
-import { Observable } from 'rxjs';
+import { Observable, catchError, forkJoin, map, of, switchMap } from 'rxjs';
 
-import { QuestionInterface } from './Interfaces/question-interface';
+import { QuestionInterface, QuestionWithAnswerInterface } from './Interfaces/question-interface';
 
 
 @Component({
@@ -12,11 +12,24 @@ import { QuestionInterface } from './Interfaces/question-interface';
 })
 export class AppComponent implements OnInit {
   title = 'Stack Overflow Quiz.';
-  questions$: Observable<QuestionInterface[]>;
+  questionsWithAnswers$: Observable<QuestionWithAnswerInterface[]>| undefined;
 
   constructor(private stackExchangeServiceService: StackExchangeServiceService) {}
 
   ngOnInit(): void {
-    this.questions$ = this.stackExchangeServiceService.getQuestions();
+    this.questionsWithAnswers$ = this.stackExchangeServiceService.getQuestions().pipe(
+      switchMap(questions => {
+        const questionWithAnswers$ = questions.map(question => {
+          return this.stackExchangeServiceService.getAnswers(question.question_id).pipe(
+            catchError(err => {
+              console.error(`Error occurred while fetching answers for question ${question.question_id}`, err);
+              return of([]); // returns an empty array if there's an error fetching answers
+            }),
+            map(answers => ({ ...question, answers }))
+          );
+        });
+        return forkJoin(questionWithAnswers$);
+      })
+    );
   }
 }
