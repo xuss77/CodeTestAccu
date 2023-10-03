@@ -9,7 +9,7 @@ import { QuestionInterface } from '../Interfaces/question-interface';
 })
 export class StackExchangeServiceService {
   private stackExchangeUri = 'https://api.stackexchange.com/2.3/';
-  private questionSearch = 'search/advanced?order=desc&sort=creation&accepted=True&answers=2&filter=withbody&site=stackoverflow';
+  private questionSearch = 'search/advanced?pagesize=1&order=desc&sort=creation&accepted=True&answers=2&filter=withbody&site=stackoverflow';
   private answersSearch = '/answers?order=desc&sort=activity&site=stackoverflow&filter=!nNPvSNdWme'
   private questionRoute = 'questions/'
 
@@ -23,7 +23,7 @@ export class StackExchangeServiceService {
             map(response => response.items),
             catchError(err => {
                 console.error('Error occurred while fetching questions', err);
-                return throwError(err);
+                return throwError(() => err);
             })
         );
 }
@@ -35,7 +35,7 @@ export class StackExchangeServiceService {
         map(response => response.items),
         catchError(err => {
             console.error('Error occurred while fetching questions', err);
-            return throwError(err);
+            return throwError(() => err);
         })
     );
   }

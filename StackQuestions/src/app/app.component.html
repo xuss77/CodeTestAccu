@@ -2,11 +2,5 @@
 <h3 >This will display recent questions for stack overflow and their answers. Your job is to guess the correct accepted answere.</h3>
 
 <div *ngFor="let questionWithAnswer of questionsWithAnswers$ | async">
-  <h2>{{ questionWithAnswer.title }}</h2>
-  <div [innerHTML]="questionWithAnswer.body"></div>
-  <ul>
-    <li *ngFor="let answer of questionWithAnswer.answers">
-      <div [innerHTML]="answer.body"></div>
-    </li>
-  </ul>
+  <app-question-card [questionWithAnswer]="questionWithAnswer"></app-question-card>
 </div>

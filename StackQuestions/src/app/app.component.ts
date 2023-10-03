@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { StackExchangeServiceService } from './stack-exchange-service/stack-exchange-service.service';
 import { Observable, catchError, forkJoin, map, of, switchMap } from 'rxjs';
 
-import { QuestionInterface, QuestionWithAnswerInterface } from './Interfaces/question-interface';
+import { QuestionWithAnswerInterface } from './Interfaces/question-interface';
+import { QuestionCardComponent } from './question-card-component/question-card-component.component'
 
 
 @Component({
