@@ -1,23 +1,16 @@
 <div class="question">
     <h2 [innerHTML]="questionWithAnswer.title"></h2>
-  
+    <div [innerHTML]="questionWithAnswer.body"></div>
     <div *ngFor="let answer of questionWithAnswer.answers" 
-    class="answer"
-    [class.correct-answer]="hasAnswered && isAccepted(answer.answer_id)" 
-    [class.wrong-answer]="hasAnswered && !isCorrect && selectedAnswerId === answer.answer_id"
-    (click)="!hasAnswered && selectAnswer(answer.answer_id)" 
-    [class.disabled]="hasAnswered">
-
-    <div [class.collapsed]="!isExpanded(answer.answer_id)">
-      <div [innerHTML]="answer.body"></div>
+      class="answer"
+      [class.correct-answer]="hasAnswered && isAccepted(answer.answer_id)" 
+      [class.wrong-answer]="hasAnswered && !isCorrect && selectedAnswerId === answer.answer_id"
+      (click)="!hasAnswered && selectAnswer(answer.answer_id)" 
+      [class.disabled]="hasAnswered">
+      <div>
+        <div [innerHTML]="answer.body"></div>
+      </div>
     </div>
-
-    <button class="expand-btn" (click)="toggleExpand(answer.answer_id)">
-    {{ isExpanded(answer.answer_id) ? '-' : '+' }}
-    </button>
-
-    </div>
-
     <div *ngIf="hasAnswered">
     <p *ngIf="isCorrect" class="success-message">You selected the correct answer!</p>
     <p *ngIf="!isCorrect" class="error-message">Oops, that's not correct. The accepted answer is highlighted.</p>

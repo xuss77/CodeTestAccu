@@ -1,5 +1,5 @@
 <h1>Stack Overflow Quiz</h1>
-<h3 >This will display recent questions for stack overflow and their answers. Your job is to guess the correct accepted answere.</h3>
+<h3 >This will display recent questions for stack overflow and their answers. Your job is to guess the correct accepted answer.</h3>
 
 <div *ngFor="let questionWithAnswer of questionsWithAnswers$ | async">
   <app-question-card [questionWithAnswer]="questionWithAnswer"></app-question-card>
